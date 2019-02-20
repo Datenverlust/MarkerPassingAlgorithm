@@ -5,23 +5,35 @@ import java.util.Collection;
 public interface Node {
 
     //Link for the network created out of nodes
-    Collection<Link> links = null;
-    public void addLink(Link link);
-    public void removeLink(Link link);
-    public Collection<Link> getLinks();
+    default void addLink(Link link) {
+        getLinks().add(link);
+    }
+
+    default void removeLink(Link link) {
+        getLinks().remove(link);
+    }
+
+    Collection<Link> getLinks();
 
     //Marker holding the activation information of the node
-    Collection<Marker> markers = null;
-    public Collection<Marker> getMarkers();
-    public void addMarker(Marker marker);
-    public void removeMarker(Marker marker);
+    default void addMarker(Marker marker) {
+        getMarkers().add(marker);
+    }
+
+    default void removeMarker(Marker marker) {
+        getMarkers().remove(marker);
+    }
+
+    Collection<Marker> getMarkers();
 
     //Node management functions
 
     /**
      * Check the chreshold of the node. If the threshold is exceeded, the node is added to the active nodes and can
      * be selected for firing.
+     *
      * @param markerClasses the markers to check the threshold for.
      */
-    public boolean checkThresholds(Object markerClasses);
+    boolean checkThresholds(Object markerClasses);
 }
+
