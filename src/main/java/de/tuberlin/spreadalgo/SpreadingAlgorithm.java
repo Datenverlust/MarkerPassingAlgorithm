@@ -2,6 +2,9 @@ package de.tuberlin.spreadalgo;
 
 import java.util.Collection;
 
+/**
+ * Main algorithm.
+ */
 public class SpreadingAlgorithm {
 
     //members
