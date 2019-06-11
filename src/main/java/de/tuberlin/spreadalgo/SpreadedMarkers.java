@@ -6,6 +6,8 @@ import java.util.LinkedList;
 
 /**
  * Created by faehndrich on 06.05.15.
+ * The spreaded markers are the markers which have to be handled during the spreading step.
+ * This means they have been passed by some node, and need to be processes by some target node.
  */
 public class SpreadedMarkers {
     HashMap<Node, Collection<SpreadingStep>> markers = new HashMap<Node, Collection<SpreadingStep>>();

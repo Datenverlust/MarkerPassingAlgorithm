@@ -2,6 +2,9 @@ package de.tuberlin.spreadalgo;
 
 import java.util.Collection;
 
+/**
+ * The node represents the vertex to the edges in the graph. A node holds the markers passed to it. It can be the target or the source oa a link.
+ */
 public interface Node {
 
     //Link for the network created out of nodes

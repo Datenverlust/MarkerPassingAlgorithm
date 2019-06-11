@@ -4,6 +4,7 @@ import java.util.Collection;
 
 /**
  * Main algorithm.
+ * This is the main algorithm which can be extended by implementing the different parts.
  */
 public class SpreadingAlgorithm {
 
