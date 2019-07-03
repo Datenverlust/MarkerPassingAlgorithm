@@ -1,4 +1,4 @@
-package de.tuberlin.spreadalgo;
+package de.kimanufaktur.spreadalgo;
 
 /**
  * Created by faehndrich on 06.05.15.
