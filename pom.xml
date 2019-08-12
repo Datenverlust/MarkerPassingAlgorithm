@@ -1,75 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.kimanufaktur</groupId>
-  <artifactId>spreadalgo</artifactId>
+  <artifactId>MarkerPassingAlgorithm</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Spreading Activation Algorithm</name>
-
-
-  <!--<distributionManagement>-->
-    <!--&lt;!&ndash;site>-->
-        <!--<id>dai-repository</id>-->
-        <!--<url>scp://repositories.dai-labor.de/export/home/local/maven/sites/commonDomainModel/${project.version}</url>-->
-    <!--</site&ndash;&gt;-->
-    <!--<repository>-->
-      <!--<id>dai-releases</id>-->
-      <!--<name>dai-releases</name>-->
-      <!--<url>http://repositories.dai-labor.de/nexus/content/repositories/dai-releases/</url>-->
-    <!--</repository>-->
-    <!--<snapshotRepository>-->
-      <!--<id>dai-snapshots</id>-->
-      <!--<name>dai-snapshots</name>-->
-      <!--<url>http://repositories.dai-labor.de/nexus/content/repositories/dai-snapshots/</url>-->
-    <!--</snapshotRepository>-->
-  <!--</distributionManagement>-->
-
-
-
-
-
-  <!--<repositories>-->
-    <!--<repository>-->
-      <!--<id>dai-releases</id>-->
-      <!--<name>DAI Maven 2 Releases Repository</name>-->
-      <!--<url>http://repositories.dai-labor.de/nexus/content/repositories/dai-releases/</url>-->
-      <!--<snapshots>-->
-        <!--<enabled>false</enabled>-->
-      <!--</snapshots>-->
-      <!--<releases>-->
-        <!--<enabled>true</enabled>-->
-      <!--</releases>-->
-    <!--</repository>-->
-    <!--<repository>-->
-      <!--<id>dai-snapshots</id>-->
-      <!--<name>DAI Maven 2 Snapshot Repository</name>-->
-      <!--<url>http://repositories.dai-labor.de/nexus/content/repositories/dai-snapshots/</url>-->
-      <!--<snapshots>-->
-        <!--<enabled>true</enabled>-->
-      <!--</snapshots>-->
-      <!--<releases>-->
-        <!--<enabled>false</enabled>-->
-      <!--</releases>-->
-    <!--</repository>-->
-    <!--<repository>-->
-      <!--<id>thirdparty</id>-->
-      <!--<name>thirdparty</name>-->
-      <!--<url>http://repositories.dai-labor.de/nexus/content/repositories/thirdparty/</url>-->
-      <!--<snapshots>-->
-        <!--<enabled>true</enabled>-->
-      <!--</snapshots>-->
-      <!--<releases>-->
-        <!--<enabled>true</enabled>-->
-      <!--</releases>-->
-    <!--</repository>-->
-
-  <!--</repositories>-->
-
- <!-- <scm>
-    <url>https://gitlab.tubit.tu-berlin.de:thomas.karbe/general-spreading-activation</url>
-    <connection>scm:git:git://gitlab.tubit.tu-berlin.de:thomas.karbe/general-spreading-activation.git</connection>
-    <developerConnection>scm:ssh://gitlab.tubit.tu-berlin.de:thomas.karbe/general-spreading-activation.git</developerConnection>
-    <tag>spreadalgo-0.0.1</tag>
-  </scm>-->
+  <name>Marker Passing Algorithm</name>
 
 
   <build>

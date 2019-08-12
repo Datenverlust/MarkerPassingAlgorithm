@@ -1,4 +1,4 @@
-package de.kimanufaktur.spreadalgo;
+package de.kimanufaktur.markerpassing;
 
 
 /**

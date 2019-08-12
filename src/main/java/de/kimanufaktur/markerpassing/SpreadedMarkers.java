@@ -1,4 +1,4 @@
-package de.kimanufaktur.spreadalgo;
+package de.kimanufaktur.markerpassing;
 
 import java.util.Collection;
 import java.util.HashMap;
