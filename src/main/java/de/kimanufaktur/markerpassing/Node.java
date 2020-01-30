@@ -32,7 +32,7 @@ public interface Node {
     //Node management functions
 
     /**
-     * Check the chreshold of the node. If the threshold is exceeded, the node is added to the active nodes and can
+     * Check the Threshold of the node. If the threshold is exceeded, the node is added to the active nodes and can
      * be selected for firing.
      *
      * @param markerClasses the markers to check the threshold for.
