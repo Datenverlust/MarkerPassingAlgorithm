@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.kimanufaktur</groupId>
   <artifactId>markerpassing</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>Marker Passing Algorithm</name>
 
 
@@ -34,7 +34,7 @@
 
   <scm>
     <developerConnection>scm:git:https://github.com/Datenverlust/MarkerPassingAlgorithm.git</developerConnection>
-    <tag>markerpassing-0.0.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
