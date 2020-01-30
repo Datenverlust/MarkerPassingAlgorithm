@@ -1,4 +1,4 @@
-package de.tuberlin.spreadalgo;
+package de.kimanufaktur.markerpassing;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +42,7 @@ public class SpreadingStep {
     public Node getTargetNode(){
         if(link == null){
             //TODO: error handling
+
             return null;
         }
         Node result = null;

@@ -1,4 +1,4 @@
-package de.tuberlin.spreadalgo;
+package de.kimanufaktur.markerpassing;
 
 import java.util.Collection;
 

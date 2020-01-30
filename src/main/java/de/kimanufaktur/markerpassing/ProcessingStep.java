@@ -1,4 +1,4 @@
-package de.tuberlin.spreadalgo;
+package de.kimanufaktur.markerpassing;
 
 /**
  * This interface is to be implemented by the processing step done in the pre- and post-processing.

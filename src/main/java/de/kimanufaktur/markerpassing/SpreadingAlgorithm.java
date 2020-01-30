@@ -1,7 +1,11 @@
-package de.tuberlin.spreadalgo;
+package de.kimanufaktur.markerpassing;
 
 import java.util.Collection;
 
+/**
+ * Main algorithm.
+ * This is the main algorithm which can be extended by implementing the different parts.
+ */
 public class SpreadingAlgorithm {
 
     //members
