@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.kimanufaktur</groupId>
   <artifactId>markerpassing</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>Marker Passing Algorithm</name>
 
 
@@ -32,7 +32,15 @@
     </plugins>
   </build>
 
+  <scm>
+    <developerConnection>scm:git:https://github.com/Datenverlust/MarkerPassingAlgorithm.git</developerConnection>
+    <tag>markerpassing-0.0.1</tag>
+  </scm>
 
-
-
+  <distributionManagement>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
 </project>
