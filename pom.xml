@@ -180,8 +180,7 @@
     </repository>
   </distributionManagement>
   <scm>
-    <connection>scm:git:https://github.com/Datenverlust/MarkerPassingAlgorithm.git</connection>
-    <developerConnection>scm:git@github.com:Datenverlust/MarkerPassingAlgorithm.git</developerConnection>
+    <developerConnection>scm:git:https://github.com/Datenverlust/MarkerPassingAlgorithm.git</developerConnection>
     <url>https://github.com/Datenverlust/MarkerPassingAlgorithm</url>
     <tag>HEAD</tag>
   </scm>
