@@ -402,6 +402,8 @@ running on the GPU via PyTorch / cuSPARSE.
 
 ### How it works
 
+![GPU Marker Passing Pipeline](docs/gpu_pipeline.svg)
+
 One complete spreading pulse — out-function, scatter, in-function — is equivalent to:
 
 ```

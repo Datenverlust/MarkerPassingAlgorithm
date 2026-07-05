@@ -1,0 +1,121 @@
+<svg viewBox="0 0 780 480" xmlns="http://www.w3.org/2000/svg" role="img">
+  <title>GPU Marker Passing Pipeline</title>
+  <desc>Three-phase architecture: CPU graph construction, GPU spreading activation, CPU result readback</desc>
+
+  <!-- dark background -->
+  <rect width="780" height="480" rx="8" fill="#1a1a1a"/>
+
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#888888"/>
+    </marker>
+    <marker id="arrb" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#7c6af7"/>
+    </marker>
+  </defs>
+
+  <!-- Phase labels -->
+  <text x="117" y="30" text-anchor="middle" font-size="11" fill="#888888" font-family="monospace" font-weight="bold">PHASE 1 — CPU</text>
+  <text x="397" y="30" text-anchor="middle" font-size="11" fill="#7c6af7" font-family="monospace" font-weight="bold">PHASE 2 — GPU</text>
+  <text x="670" y="30" text-anchor="middle" font-size="11" fill="#888888" font-family="monospace" font-weight="bold">PHASE 3 — CPU</text>
+
+  <!-- Dividers -->
+  <line x1="240" y1="38" x2="240" y2="460" stroke="#333333" stroke-width="1" stroke-dasharray="4 3"/>
+  <line x1="550" y1="38" x2="550" y2="460" stroke="#333333" stroke-width="1" stroke-dasharray="4 3"/>
+
+  <!-- GPU background zone -->
+  <rect x="245" y="40" width="300" height="418" rx="6" fill="#7c6af7" fill-opacity="0.07"/>
+
+  <!-- ===== PHASE 1: CPU ===== -->
+
+  <!-- Dictionary lookup -->
+  <rect x="22" y="58" width="204" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="124" y="77" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Dictionary lookup</text>
+  <text x="124" y="93" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">WordNet · Wiktionary · Wikidata</text>
+
+  <line x1="124" y1="102" x2="124" y2="120" stroke="#888888" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- Decomposition -->
+  <rect x="22" y="121" width="204" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="124" y="140" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Decomposition</text>
+  <text x="124" y="156" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">Concept cache · fill_concept()</text>
+
+  <line x1="124" y1="165" x2="124" y2="183" stroke="#888888" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- Concept graph -->
+  <rect x="22" y="184" width="204" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="124" y="203" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Concept graph</text>
+  <text x="124" y="219" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">SemanticNet · assign node IDs</text>
+
+  <line x1="124" y1="228" x2="124" y2="246" stroke="#888888" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- Serialise -->
+  <rect x="22" y="247" width="204" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="124" y="266" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Serialise</text>
+  <text x="124" y="282" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">W: sparse CSR  ·  X₀: dense [N×K]</text>
+
+  <!-- H→D transfer arrow -->
+  <line x1="226" y1="269" x2="255" y2="269" stroke="#7c6af7" stroke-width="1.8" marker-end="url(#arrb)"/>
+  <text x="232" y="263" font-size="9" fill="#7c6af7" font-family="monospace">H→D</text>
+
+  <!-- ===== PHASE 2: GPU ===== -->
+
+  <!-- Spreading pulse box -->
+  <rect x="263" y="58" width="278" height="92" rx="5" fill="#252525" stroke="#7c6af7" stroke-width="1.6"/>
+  <text x="402" y="80" text-anchor="middle" font-size="12" fill="#7c6af7" font-family="monospace" font-weight="bold">Spreading pulse  (×80)</text>
+  <text x="402" y="100" text-anchor="middle" font-size="11" fill="#eeeeee" font-family="monospace">X′ = W · X        SpMM / cuSPARSE</text>
+  <text x="402" y="118" text-anchor="middle" font-size="11" fill="#eeeeee" font-family="monospace">X  = (|X′| &gt; θ) ⊙ X′  threshold</text>
+  <text x="402" y="136" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">all K seed-concepts in parallel</text>
+
+  <!-- loop arrow -->
+  <path d="M 541 76 Q 562 76 562 100 Q 562 126 541 126" fill="none" stroke="#7c6af7" stroke-width="1.4" marker-end="url(#arrb)"/>
+  <text x="564" y="104" font-size="9" fill="#7c6af7" font-family="monospace">loop</text>
+
+  <line x1="402" y1="150" x2="402" y2="168" stroke="#7c6af7" stroke-width="1.4" marker-end="url(#arrb)"/>
+
+  <!-- Termination check -->
+  <rect x="263" y="169" width="278" height="44" rx="5" fill="#252525" stroke="#7c6af7" stroke-width="1.6"/>
+  <text x="402" y="188" text-anchor="middle" font-size="12" fill="#7c6af7" font-family="monospace" font-weight="bold">Termination check (on GPU)</text>
+  <text x="402" y="204" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">pulse count  ·  max(|X′−X|) &lt; ε</text>
+
+  <line x1="402" y1="213" x2="402" y2="231" stroke="#7c6af7" stroke-width="1.4" marker-end="url(#arrb)"/>
+
+  <!-- Activation readout -->
+  <rect x="263" y="232" width="278" height="44" rx="5" fill="#252525" stroke="#7c6af7" stroke-width="1.6"/>
+  <text x="402" y="251" text-anchor="middle" font-size="12" fill="#7c6af7" font-family="monospace" font-weight="bold">Activation readout</text>
+  <text x="402" y="267" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">pairwise dot products  ·  collision map</text>
+
+  <!-- D→H transfer arrow -->
+  <line x1="541" y1="269" x2="558" y2="269" stroke="#7c6af7" stroke-width="1.8" marker-end="url(#arrb)"/>
+  <text x="541" y="263" font-size="9" fill="#7c6af7" font-family="monospace">D→H</text>
+
+  <!-- Batch dimension box -->
+  <rect x="263" y="315" width="278" height="132" rx="5" fill="#252525" stroke="#7c6af7" stroke-width="1.6" stroke-dasharray="5 3"/>
+  <text x="402" y="337" text-anchor="middle" font-size="12" fill="#7c6af7" font-family="monospace" font-weight="bold">Batch dimension B</text>
+  <text x="402" y="359" text-anchor="middle" font-size="10.5" fill="#eeeeee" font-family="monospace">W:  [N × N]  sparse</text>
+  <text x="402" y="377" text-anchor="middle" font-size="10.5" fill="#eeeeee" font-family="monospace">X:  [N × K × B]  dense</text>
+  <text x="402" y="395" text-anchor="middle" font-size="10.5" fill="#eeeeee" font-family="monospace">N = nodes · K = seed concepts</text>
+  <text x="402" y="413" text-anchor="middle" font-size="10.5" fill="#eeeeee" font-family="monospace">B = word-pairs in batch</text>
+  <text x="402" y="433" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">cuSPARSE SpMM · PyTorch sparse</text>
+
+  <!-- ===== PHASE 3: CPU ===== -->
+
+  <!-- Map back to Concepts -->
+  <rect x="563" y="247" width="196" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="661" y="266" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Map back to Concepts</text>
+  <text x="661" y="282" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">node ID → Concept · path tracking</text>
+
+  <line x1="661" y1="291" x2="661" y2="309" stroke="#888888" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- Symbolic post-processing -->
+  <rect x="563" y="310" width="196" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="661" y="329" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Symbolic post-proc.</text>
+  <text x="661" y="345" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">InferencePath · InferenceCollision</text>
+
+  <line x1="661" y1="354" x2="661" y2="372" stroke="#888888" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- Similarity / Answer -->
+  <rect x="563" y="373" width="196" height="44" rx="5" fill="#252525" stroke="#444444" stroke-width="1.2"/>
+  <text x="661" y="392" text-anchor="middle" font-size="12" fill="#eeeeee" font-family="monospace" font-weight="bold">Similarity / Answer</text>
+  <text x="661" y="408" text-anchor="middle" font-size="10" fill="#888888" font-family="monospace">score · get_correct_answer_v7()</text>
+</svg>
