@@ -9,7 +9,7 @@ public interface ProcessingStep {
 
 	/**
 	 * The execute method is the starting point of which is called when the processing step is
-	 * invoked by the Marker Passing algorithm.
+	 * invoked by the de.kimanufaktur.markerpassing.Marker Passing algorithm.
 	 */
 	public void execute();
 

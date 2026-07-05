@@ -18,7 +18,7 @@ public interface Node {
 
     Collection<Link> getLinks();
 
-    //Marker holding the activation information of the node
+    //de.kimanufaktur.markerpassing.Marker holding the activation information of the node
     default void addMarker(Marker marker) {
         getMarkers().add(marker);
     }
@@ -29,13 +29,14 @@ public interface Node {
 
     Collection<Marker> getMarkers();
 
-    //Node management functions
+    //de.kimanufaktur.markerpassing.Node management functions
 
     /**
      * Check the Threshold of the node. If the threshold is exceeded, the node is added to the active nodes and can
      * be selected for firing.
      *
      * @param markerClasses the markers to check the threshold for.
+     * @return boolean if one of the threshold is reached
      */
     boolean checkThresholds(Object markerClasses);
 }

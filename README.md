@@ -1,9 +1,5 @@
 # MarkerPassingAlgorithm
-This is an generalized implementation of the general Marker Passing algorithm published by: Crestani (https://doi.org/10.1023/A:1006569829653).
-The idea is the same as in activation spreading (for more details you can start here: https://en.wikipedia.org/wiki/Spreading_activation), but the implementation is more general. 
-Marker Passing extends the "double value" which is used in spreading activation as activation or zorch to a general marker.
-This marker can contain all information wanted. It is passt to other nodes, which can modify this marker. 
-With this algorithm, we can subsum some simple models like PetriNets and some more complex Models Like ANN. 
+This is a generalized implementation of the general Marker Passing algorithm published by Crestani (https://doi.org/10.1023/A:1006569829653). The idea is the same as in Activation Spreading (for more details you can start here: https://en.wikipedia.org/wiki/Spreading_activation), but the implementation is more general. Marker Passing extends the "double value" which is used in spreading activation as activation or zorch to a general marker. This marker can contain all the information wanted. It is passed to other nodes, which can modify this marker. With this algorithm, we can subsume some simple models like Petri nets and some more complex Models Like ANN.
 
 But the here proposed algorithm can do way more. Your imagination is the limit.
 
