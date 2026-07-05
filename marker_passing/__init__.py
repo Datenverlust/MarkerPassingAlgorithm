@@ -9,6 +9,7 @@ from .select_firing_nodes_function import SelectFiringNodesFunction
 from .processing_step import ProcessingStep
 from .termination_condition import TerminationCondition
 from .spreading_algorithm import SpreadingAlgorithm
+from . import gpu
 
 __all__ = [
     "Marker",
@@ -22,4 +23,5 @@ __all__ = [
     "ProcessingStep",
     "TerminationCondition",
     "SpreadingAlgorithm",
+    "gpu",
 ]

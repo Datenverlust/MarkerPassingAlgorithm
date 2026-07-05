@@ -25,18 +25,29 @@ numeric values.
 
 ## Requirements
 
-- Python 3.9+
-- No external dependencies — pure stdlib
+| | CPU (`python` branch) | GPU (`python_gpu` branch) |
+|---|---|---|
+| Python | 3.9+ | 3.9+ |
+| Dependencies | none (pure stdlib) | `torch` (PyTorch ≥ 2.0) |
+| CUDA | — | optional (falls back to CPU tensors) |
+
+```bash
+# GPU branch only
+pip install torch
+# with CUDA (example for CUDA 12.1):
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+```
 
 ## Installation
 
 ```bash
 git clone https://github.com/Datenverlust/MarkerPassingAlgorithm.git
 cd MarkerPassingAlgorithm
-git checkout python
+git checkout python_gpu
 
 # install as an editable package (optional)
 pip install -e .
+pip install torch
 ```
 
 ---
@@ -379,6 +390,143 @@ class CollisionIn(InFunction):
                     origins_seen.add(m.origin)
                     node.activation += m.value
                     node.get_markers().append(m)
+```
+
+---
+
+## GPU acceleration (`marker_passing.gpu`)
+
+The `python_gpu` branch adds a `marker_passing.gpu` subpackage that replaces the
+object-oriented pulse loop with a **sparse matrix multiplication (SpMM)** kernel
+running on the GPU via PyTorch / cuSPARSE.
+
+### How it works
+
+One complete spreading pulse — out-function, scatter, in-function — is equivalent to:
+
+```
+x' = W · x              (SpMM: cuSPARSE on GPU, or torch.mm on CPU)
+x  = x' * (|x'| > θ)   (elementwise threshold mask)
+```
+
+Where **W** `[N × N]` is the sparse link-weight matrix and **x** `[N]` is the
+activation vector.  The object-oriented `Node`, `Link`, `Marker` objects are only
+needed to *build* W and x — the GPU loop never touches them.
+
+### Constraints
+
+| Supported | Not supported |
+|---|---|
+| Scalar-activation markers (float) | Symbolic markers (path history, typed labels) |
+| Static graphs (topology fixed before execute) | Lazy graph expansion during spreading |
+| `DoubleMarkerPassing`-style algorithms | `PathMarkerPassing` (abductive path tracking) |
+
+### Package layout
+
+```
+marker_passing/gpu/
+├── __init__.py
+├── graph_serializer.py       # Node/Link graph → sparse COO weight matrix
+└── cuda_spreading_algorithm.py  # GPU SpMM pulse loop + batched variant
+```
+
+### `GraphSerializer`
+
+Converts a set of `Node` objects (and their outgoing `Link`s) into a COO sparse
+matrix.  Link weights are extracted by duck-typing: it looks for a `.weight`
+attribute, then `.get_weight()`, then falls back to `1.0`.
+
+```python
+from marker_passing.gpu import GraphSerializer
+
+serializer = GraphSerializer(nodes=[a, b, c])
+rows, cols, vals = serializer.build_coo()       # COO triplets
+x0 = serializer.initial_activation_vector({a: 1.0})  # dense list[float]
+```
+
+### `CudaSpreadingAlgorithm` — single activation vector
+
+Drop-in replacement for a scalar `SpreadingAlgorithm` where the marker is a float.
+
+```python
+from marker_passing.gpu import GraphSerializer, CudaSpreadingAlgorithm
+
+# 1. Build the same Node/Link graph as usual
+# (WeightedLink, SimpleNode — any concrete subclasses)
+a, b, c = SimpleNode("A"), SimpleNode("B"), SimpleNode("C")
+a.get_links().append(WeightedLink(a, b, weight=0.5))
+b.get_links().append(WeightedLink(b, c, weight=0.5))
+
+# 2. Serialise to GPU tensors
+serializer = GraphSerializer([a, b, c])
+algo = CudaSpreadingAlgorithm(
+    serializer,
+    threshold=0.05,
+    max_pulses=80,
+    device="cuda",   # or "cpu" for testing without a GPU
+)
+
+# 3. Set initial activation on seed nodes
+algo.set_activation(a, 1.0)
+
+# 4. Run — stays entirely on GPU until done
+pulses = algo.execute()
+print(f"Converged in {pulses} pulses")
+
+# 5. Read results back to CPU
+print(algo.get_activation(b))          # float
+print(algo.get_all_activations())      # Dict[Node, float]
+```
+
+### `execute_batched` — K seed concepts in parallel
+
+The primary GPU win: evaluate K independent activation vectors simultaneously in
+one `[N × K]` SpMM per pulse, at almost no extra cost.
+
+```python
+# Compare cat vs dog and cat vs car in a single GPU pass
+results = algo.execute_batched([
+    {cat_node: 1.0, dog_node: 0.0},   # seed concept: cat
+    {cat_node: 0.0, dog_node: 1.0},   # seed concept: dog
+    {cat_node: 0.0, car_node: 1.0},   # seed concept: car
+])
+
+cat_activations = results[0]   # Dict[Node, float] for cat seed
+dog_activations = results[1]
+car_activations = results[2]
+```
+
+Throughput scales near-linearly with K.  For a dataset evaluation (e.g. all 353
+WordSim-353 pairs at once, K = 706 seed concepts), this turns 353 sequential CPU
+runs into a single GPU call.
+
+### Device selection
+
+```python
+# Explicit CUDA device
+algo = CudaSpreadingAlgorithm(serializer, device="cuda")
+
+# Explicit CPU (for testing without a GPU — same code path, just slower)
+algo = CudaSpreadingAlgorithm(serializer, device="cpu")
+
+# Auto-detect (default): uses CUDA if available, otherwise CPU
+algo = CudaSpreadingAlgorithm(serializer)
+print(algo.device)   # "cuda:0" or "cpu"
+```
+
+### Convergence
+
+`execute()` stops at `max_pulses` *or* when the maximum element-wise delta drops
+below `convergence_eps` (default `1e-6`):
+
+```python
+algo = CudaSpreadingAlgorithm(
+    serializer,
+    max_pulses=200,
+    convergence_eps=1e-8,
+)
+n = algo.execute()
+print(f"Stopped after {n} pulses (max={algo.pulses_run})")
 ```
 
 ---
